@@ -1,1 +1,30 @@
+def decode_signs(sequence, indicator="chest"):
+    """
+    Decodes a list of physical signs. 
+    The sign immediately FOLLOWING the indicator is the live play.
+    """
+    plays = {
+        "belt": "STEAL",
+        "ear": "BUNT",
+        "nose": "HIT AND RUN",
+        "hat": "TAKE PITCH"
+    }
+    
+    try:
+        # Find where the 'hot' indicator is in the sequence
+        idx = sequence.index(indicator)
+        
+        # The play is the very next sign
+        live_sign = sequence[idx + 1]
+        
+        return f"LIVE PLAY: {plays.get(live_sign, 'NOT STEALING / STAY')}"
+        
+    except (ValueError, IndexError):
+        # If the indicator isn't there, or is the last sign, nothing happens
+        return "DECISION: NO ACTION (STAY)"
+
+# Example: Coach touches Nose, Hat, CHEST (Indicator), Belt, then Ear.
+sequence_from_coach = ["nose", "hat", "chest", "belt", "ear"]
+print(decode_signs(sequence_from_coach)) 
+# Result: LIVE PLAY: STEAL
 
